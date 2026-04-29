@@ -416,9 +416,21 @@ function handleLogin(){
   if(user){currentUser=user;isAdmin=false;localStorage.setItem('as_session',JSON.stringify({isAdmin:false,username:user.username}));showToast(`Добро пожаловать, ${user.name}! 🌯`,'success');showApp()}else showToast('Неверный логин или пароль','error')
 }
 function handleRegister(){
-  const n=document.getElementById('regName').value.trim(),u=document.getElementById('regUsername').value.trim(),p=document.getElementById('regPassword').value.trim();
-  if(!n||!u||!p)return showToast('Заполните все поля','error');if(u===ADMIN_CREDENTIALS.username)return showToast('Этот логин занят','error');if(getUsers().find(x=>x.username===u))return showToast('Пользователь уже существует','error');
-  getUsers().push({name:n,username:u,password:p});saveUsers(getUsers());showToast('Регистрация успешна! Теперь войдите ✅','success');switchAuthTab('login')
+  const n=document.getElementById('regName').value.trim(),
+        u=document.getElementById('regUsername').value.trim(),
+        p=document.getElementById('regPassword').value.trim();
+
+  if(!n!u!p) return showToast('Заполните все поля','error');
+  if(u===ADMIN_CREDENTIALS.username) return showToast('Этот логин занят','error');
+
+  const users = getUsers(); // ← Сохраняем массив в переменную!
+  if(users.find(x=>x.username===u)) return showToast('Пользователь уже существует','error');
+
+  users.push({name:n, username:u, password:p}); // ← Меняем ту же переменную
+  saveUsers(users); // ← Сохраняем изменённый массив!
+
+  showToast('Регистрация успешна! Теперь войдите ✅','success');
+  switchAuthTab('login');
 }
 function handleLogout(){currentUser=null;isAdmin=false;cart={};localStorage.removeItem('as_session');document.getElementById('mainApp').style.display='none';document.getElementById('authScreen').style.display='flex';document.getElementById('loginUsername').value='';document.getElementById('loginPassword').value='';showToast('Вы вышли из аккаунта','')}
 function switchTab(t){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));const p=document.getElementById('page-'+t);if(p)p.classList.add('active');const l={menu:'меню',chicken:'курица',orders:'мои заказы',admin:'админ'};document.querySelectorAll('.tab').forEach(e=>{if(e.textContent.toLowerCase().includes(l[t]||t))e.classList.add('active')});const n=document.getElementById('nav-'+t);if(n)n.classList.add('active');document.getElementById('floatCartBtn').classList.toggle('show',t==='menu'&&!isAdmin)}
