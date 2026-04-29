@@ -1,0 +1,21 @@
+{
+  "name": "Арабская шаурма",
+  "short_name": "Шаурма",
+  "description": "Заказ шаурмы и курицы-гриль онлайн",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a5c2a",
+  "theme_color": "#1a5c2a",
+  "categories": ["food", "lifestyle"],
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
